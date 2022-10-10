@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity  ^0.8.0;
+
+contract checke {
+
+    /// method no 1 ///
+
+    address public owner ;
+
+    constructor () {
+        owner = msg.sender ;
+    }
+
+
+   //// method no2 ////
+    address public checker ;
+
+    function viewowner () public {
+        checker = msg.sender ;
+    }
+
+    ////method no 3 ///
+
+    function get () public view returns(address){
+        address acount ;
+        return acount = msg.sender ;
+    }
+
+}
