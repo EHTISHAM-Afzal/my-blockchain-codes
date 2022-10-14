@@ -1,0 +1,18 @@
+contract Bank {
+    mapping (address => uint) balance ;
+
+    function addbalance (uint amount)public{
+        balance[msg.sender] += amount;
+    }
+
+    function viewBalance () public view returns (uint) {
+        return balance[msg.sender];
+    }
+
+    function transfer (address addres, uint amount ) public {
+        require(balance[msg.sender] >= amount , "not enoughbalnce");
+        require(msg.sender != addres , "the sender and reciever are same");
+        balance [msg.sender] -= amount ;
+        balance [addres] += amount ;
+    }
+}
