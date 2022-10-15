@@ -16,3 +16,38 @@ contract Bank {
         balance [addres] += amount ;
     }
 }
+
+
+///modifier ssert and require functions ///
+
+contract Bank {
+    mapping (address => uint) balance ;
+
+    address owner ;
+
+    modifier onlyowner {
+        require (owner == msg.sender , "you r not the ower");
+        _;
+    }
+
+    constructor () {
+        owner = msg.sender ;
+    }
+
+    function addbalance (uint amount)public{
+        balance[msg.sender] += amount;
+    }
+
+    function viewBalance () public view returns (uint) {
+        return balance[msg.sender];
+    }
+
+    function transfer (address addres, uint amount ) public onlyowner {
+        require(balance[msg.sender] >= amount , "not enoughbalnce");
+        require(msg.sender != addres , "the sender and reciever are same");
+        uint prevBalance = balance [msg.sender];
+        balance [msg.sender] -= amount ;
+        balance [addres] += amount ;
+        assert (balance[msg.sender] == prevBalance - amount);
+    }
+}
