@@ -51,3 +51,54 @@ contract Bank {
         assert (balance[msg.sender] == prevBalance - amount);
     }
 }
+
+
+
+
+/////bank contract withe payable functions 
+
+
+contract Bank {
+    mapping (address => uint) balance ;
+
+    address owner ;
+
+    event toaddbalance (address toaddress, uint amount);
+
+    modifier onlyowner {
+        require (owner == msg.sender , "you r not the ower");
+        _;
+    }
+
+    constructor () {
+        owner = msg.sender ;
+    }
+
+   // function addbalance (uint amount)public{
+   //     emit toaddbalance (msg.sender,amount);
+   //     balance[msg.sender] += amount;
+  //  }
+
+    function deposit () public payable returns(uint) {
+        emit toaddbalance (msg.sender,msg.value);
+        balance[msg.sender] += msg.value;
+        return msg.value;
+    }
+
+    function viewBalance () public view returns (uint) {
+        return address(this).balance;
+    }
+
+    function viewaddressBalance () public view returns (uint) {
+        return msg.sender.balance;
+    }
+
+    function transfer (address addres, uint amount ) public  onlyowner {
+        require(balance[msg.sender] >= amount , "not enoughbalnce");
+        require(msg.sender != addres , "the sender and reciever are same");
+        uint prevBalance = balance [msg.sender];
+        balance [msg.sender] -= amount ;
+        balance [addres] += amount ;
+        assert (balance[msg.sender] == prevBalance - amount);
+    } 
+}
